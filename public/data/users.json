@@ -1,0 +1,88 @@
+{
+    "result": [
+      {
+        "status": "disabled",
+        "name": {
+          "first": "Estella",
+          "middle": "Taylor",
+          "last": "Larson"
+        },
+        "username": "Estella-Larson",
+        "password": "iI78kPh9HrIXOE4",
+        "emails": [
+          "Leonie_Baumbach49@example.com",
+          "Amiya.Wilderman1@example.com"
+        ],
+        "phoneNumber": "755.802.3542 x200",
+        "location": {
+          "street": "406 Grady Burg",
+          "city": "Tacoma",
+          "state": "New Jersey",
+          "country": "Indonesia",
+          "zip": "19710-4966",
+          "coordinates": {
+            "latitude": -86.7925,
+            "longitude": 16.1734
+          }
+        },
+        "website": "https://ironclad-injury.org",
+        "domain": "right-agriculture.biz",
+        "job": {
+          "title": "National Identity Planner",
+          "descriptor": "Dynamic",
+          "area": "Accounts",
+          "type": "Officer",
+          "company": "Stark, Carroll and Jenkins"
+        },
+        "creditCard": {
+          "number": "3743-047951-09473",
+          "cvv": "358",
+          "issuer": "jcb"
+        },
+        "uuid": "f5f8da32-cabe-410b-8772-7ded2cf39455",
+        "objectId": "6685262b9b49bad89623a1a6"
+      },
+      {
+        "status": "disabled",
+        "name": {
+          "first": "Oleta",
+          "middle": "James",
+          "last": "Parisian"
+        },
+        "username": "Oleta-Parisian",
+        "password": "709VwadAA5WcUUO",
+        "emails": [
+          "Blair.Runolfsdottir@example.com",
+          "Brandt.Larkin40@example.com"
+        ],
+        "phoneNumber": "824-527-9781",
+        "location": {
+          "street": "991 Bernhard Isle",
+          "city": "South Dena",
+          "state": "Nebraska",
+          "country": "Gabon",
+          "zip": "93471-2376",
+          "coordinates": {
+            "latitude": -58.3495,
+            "longitude": 88.652
+          }
+        },
+        "website": "https://nifty-tablet.org/",
+        "domain": "cavernous-bottom-line.info",
+        "job": {
+          "title": "Chief Assurance Planner",
+          "descriptor": "Senior",
+          "area": "Tactics",
+          "type": "Technician",
+          "company": "Balistreri, Jacobi and Funk"
+        },
+        "creditCard": {
+          "number": "4991896181290",
+          "cvv": "065",
+          "issuer": "american_express"
+        },
+        "uuid": "46dd9e86-9328-480f-bf1b-6164ce2c5da7",
+        "objectId": "6685262b9b49bad89623a1a7"
+      }
+    ]
+  }

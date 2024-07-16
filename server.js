@@ -1,11 +1,11 @@
 const cors = require('cors')
-const express = require('express')
+const corsOptions = require('./config/cors-options')
 const path = require('path')
+const express = require('express')
 const errorHandler = require('./middleware/error-handler')
 const { logger } = require('./middleware/log-events')
 
 const PORT_NUMBER = process.env.PORT || 8080
-const WHITELIST = ['https://www.google.com']
 const PATH_PUBLIC = path.join(__dirname, '/public')
 const PATH_404 = path.join(__dirname, 'views', '404.html')
 const server = express()
@@ -14,17 +14,7 @@ const server = express()
 server.use(logger)
 
 // CORS middleware (Cross Origin Resource Sharing)
-let options = {
-    origin: (origin, callback) => {
-        if (WHITELIST.indexOf(origin) !== -1  || !origin) { // Origin domain is whitelisted (or no origin/undefined)
-            callback(null, true) // Callback is allowed
-        } else {
-            callback(new Error('Callback to origin domain not allowed'))
-        }
-    },
-    optionsSuccessStatus: 200
-}
-server.use(cors(options))
+server.use(cors(corsOptions))
 
 // Express middleware to handle URL-encoded data 
 // 'content-type: application/x-www-form-urlencoded'

@@ -26,12 +26,10 @@ server.use(express.urlencoded({
 server.use(express.json())
 
 // Express middleware to serve static files from custom folders
-server.use('/', express.static(PATH_PUBLIC)) 
-server.use('/sub', express.static(PATH_PUBLIC))
+server.use('/', express.static(PATH_PUBLIC))
 
 // Custom routing from separate JS files
 server.use('/', require('./routes/home'))
-server.use('/sub', require('./routes/sub'))
 server.use('/customers', require('./routes/api/customers'))
 
 // Wildcard routing (all methods)

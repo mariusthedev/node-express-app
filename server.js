@@ -35,7 +35,7 @@ server.use(express.urlencoded({
 // Express middleware to handle JSON data
 server.use(express.json())
 
-// Express middleware to server static files from custom folders
+// Express middleware to serve static files from custom folders
 server.use('/', express.static(PATH_PUBLIC)) 
 server.use('/sub', express.static(PATH_PUBLIC))
 

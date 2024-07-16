@@ -1,38 +1,16 @@
 const express = require('express')
 const router = express.Router()
-
-const data = {}
-data.customers = require('../../data/customers.json')
+const customerController = require('../../controllers/customer-controller')
 
 router
     .route('/')
-    .get((req, res) => {
-        res.json(data.customers)
-    })
-    .post((req, res) => {
-        res.json({
-            "email": req.body.email,
-            "name": req.body.name
-        })
-    })
-    .put((req, res) => {
-        res.json({
-            "email": req.body.email,
-            "name": req.body.name
-        })
-    })
-    .delete((req, res) => {
-        res.json({
-            "id": req.body.id
-        })
-    })
+    .get(customerController.getCustomers)
+    .post(customerController.createCustomer)
+    .put(customerController.updateCustomer)
+    .delete(customerController.deleteCustomer)
 
 router
     .route('/:id')
-    .get((req, res) => {
-        res.json({
-            "id": req.params.id
-        })
-    })
+    .get(customerController.getCustomerById)
 
 module.exports = router

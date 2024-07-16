@@ -29,7 +29,7 @@ const createCustomer = (req, res) => {
     }
 
     data.initializeCustomerData([...data.customers, newCustomer])
-    res.json(data.customers)
+    res.status(201).json(data.customers)
 }
 
 const updateCustomer = (req, res) => {

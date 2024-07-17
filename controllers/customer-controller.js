@@ -10,9 +10,13 @@ const getCustomers = (req, res) => {
 }
 
 const getCustomerById = (req, res) => {
-    res.json({
-        "id": req.params.id
-    })
+    const customerItem = data.customers.find(item => item.id === parseInt(req.params.id))
+    if (customerItem === undefined) {
+        return res.status(400).json({
+            "message": `Could not retrieve customer, item with ID ${req.body.id} not found!`
+        })
+    }
+    res.json(customerItem)
 }
 
 const createCustomer = (req, res) => {

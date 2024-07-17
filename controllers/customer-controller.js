@@ -45,16 +45,15 @@ const updateCustomer = (req, res) => {
         })
     }
     if (req.body.email) {
-        customerItem = req.body.email
+        customerItem.email = req.body.email
     }
     if (req.body.name) {
-        customerItem = req.body.name
+        customerItem.name = req.body.name
     }
     // Sort array of customer items and initialize stored data
-    const customerItemsNotMatchingRequestID = data.customers.filter(item => item !== parseInt(req.body.id))
+    const customerItemsNotMatchingRequestID = data.customers.filter(item => item.id !== parseInt(req.body.id))
     const allCustomerItems = [...customerItemsNotMatchingRequestID, customerItem]
-    const allCustomerItemsSortedByID = allCustomerItems.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0)
-    data.initializeCustomerData(allCustomerItemsSortedByID)
+    data.initializeCustomerData(allCustomerItems.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0))
     res.json(data.customers)
 }
 

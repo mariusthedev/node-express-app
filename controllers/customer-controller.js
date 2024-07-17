@@ -22,7 +22,7 @@ const createCustomer = (req, res) => {
         name: req.body.name
     }
 
-    if (!newCustomer.email || !newCustomer.name) {
+    if (!newCustomer.email || !newCustomer.name) { // What is really being checked for here? Improve readability by specifying..
         return res.status(400).json({
             "message": 'Email and/or name was not provided!'
         })
@@ -33,11 +33,11 @@ const createCustomer = (req, res) => {
 }
 
 const updateCustomer = (req, res) => {
-    // Get and update customer item
+    // Find and update customer item
     const customerItem = data.customers.find(item => item.id === parseInt(req.body.id))
-    if (!customerItem) {
+    if (customerItem === undefined) {
         return res.status(400).json({
-            "message": `Customer item with ID ${req.body.id} was not found!`
+            "message": `Could not update customer, item with ID ${req.body.id} not found!`
         })
     }
     if (req.body.email) {
@@ -55,9 +55,17 @@ const updateCustomer = (req, res) => {
 }
 
 const deleteCustomer = (req, res) => {
-    res.json({
-        "id": req.body.id
-    })
+    // Find customer item
+    const customerItem = data.customers.find(item => item.id === parseInt(req.body.id))
+    if (customerItem === undefined) {
+        return res.status(400)-json({
+            "message": `Could not delete customer, item with ID ${req.body.id} not found!`
+        })
+    }
+    // Sort array of customer items and initialize stored data
+    const customerItemsNotMatchingRequestID = data.customers.filter(item => item !== parseInt(req.body.id))
+    data.initializeCustomerData(customerItemsNotMatchingRequestID)
+    res.json(data.customers)
 }
 
 module.exports = {

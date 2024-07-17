@@ -228,3 +228,13 @@
 [2024-07-17]	13:40:29	9e24f09d-b8c3-4a87-8ec5-eed37edbc38a	DELETE	undefined	/customers	
 [2024-07-17]	13:40:34	620fa76d-973e-496c-8372-04ea1971afdf	DELETE	undefined	/customers	
 [2024-07-17]	13:40:37	d0dad807-ffb2-419f-979d-3258c1c43494	DELETE	undefined	/customers	
+[2024-07-17]	13:44:09	4e5da31e-244e-4b91-99e6-3770b4c2ecdf	GET	undefined	/customers	
+[2024-07-17]	13:44:12	0fa26b08-b0de-4e90-aa1a-a6ec02d68da0	POST	undefined	/customers	
+[2024-07-17]	13:44:12	4d8c0c6a-a592-4459-9449-842d37a3cf07	POST	undefined	/customers	
+[2024-07-17]	13:44:12	c8740950-3083-456d-8979-8d3db00e08ce	POST	undefined	/customers	
+[2024-07-17]	13:44:12	a3b67bce-f244-46af-b8e2-6e6554f29017	POST	undefined	/customers	
+[2024-07-17]	13:44:28	54e54d78-622c-4d02-b64a-8da3e3d636d0	POST	undefined	/customers	
+[2024-07-17]	13:44:29	8a1d16a3-8eb5-482e-a211-3b1be4ae7d34	POST	undefined	/customers	
+[2024-07-17]	13:44:29	56e043a1-28e9-472a-a332-7c4797466735	POST	undefined	/customers	
+[2024-07-17]	13:44:32	6f39201c-65ea-43a0-90ef-751116c7abb8	GET	undefined	/customers	
+[2024-07-17]	13:44:40	4e42709d-4c41-4453-8b49-deaa2d3ef0fa	DELETE	undefined	/customers	

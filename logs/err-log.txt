@@ -1,5 +1,0 @@
-[2024-07-05]	13:06:10	c09c98f0-6fc3-4df0-ad00-01217f11db78	Error: Callback to origin domain not allowed
-[2024-07-11]	12:30:09	6bf30be5-f475-49d7-ac51-89e82cfd247e	Error: ENOENT: no such file or directory, stat '/home/haugis/Dev/nodejs-davegray/node-express-webserver/routes/views/index.html'
-[2024-07-17]	13:14:41	3e4eb98b-cc92-4cc7-b50c-3cfbc1f79da5	TypeError: Assignment to constant variable.
-[2024-07-17]	13:22:42	37f90f2f-c32e-4dd5-a688-eda990dee8f9	SyntaxError: Expected ',' or '}' after property value in JSON at position 14
-[2024-07-17]	13:38:48	47fd6b47-ab1c-4e9c-84b4-14fa8aca175f	ReferenceError: json is not defined

@@ -24,7 +24,7 @@ const createCustomer = (req, res) => {
 
     if (!newCustomer.email || !newCustomer.name) {
         return res.status(400).json({
-            'message': 'Email and/or name was not provided!'
+            "message": 'Email and/or name was not provided!'
         })
     }
 
@@ -33,10 +33,25 @@ const createCustomer = (req, res) => {
 }
 
 const updateCustomer = (req, res) => {
-    res.json({
-        "email": req.body.email,
-        "name": req.body.name
-    })
+    // Get and update customer item
+    const customerItem = data.customers.find(item => item.id === parseInt(req.body.id))
+    if (!customerItem) {
+        return res.status(400).json({
+            "message": `Customer item with ID ${req.body.id} was not found!`
+        })
+    }
+    if (req.body.email) {
+        customerItem = req.body.email
+    }
+    if (req.body.name) {
+        customerItem = req.body.name
+    }
+    // Sort array of customer items and initialize stored data
+    const customerItemsNotMatchingRequestID = data.customers.filter(item => item !== parseInt(req.body.id))
+    const allCustomerItems = [...customerItemsNotMatchingRequestID, customerItem]
+    const allCustomerItemsSortedByID = allCustomerItems.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0)
+    data.initializeCustomerData(allCustomerItemsSortedByID)
+    res.json(data.customers)
 }
 
 const deleteCustomer = (req, res) => {

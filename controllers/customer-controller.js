@@ -1,5 +1,5 @@
 const data = {
-    customers: require('../../models/customers.json'),
+    customers: require('../models/customers.json'),
     initializeCustomerData: function(data) {
         this.customers = data
     }

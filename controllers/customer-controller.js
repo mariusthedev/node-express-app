@@ -64,7 +64,7 @@ const deleteCustomer = (req, res) => {
     }
     // Sort array of customer items and initialize stored data
     const customerItemsNotMatchingRequestID = data.customers.filter(item => item !== parseInt(req.body.id))
-    data.initializeCustomerData(customerItemsNotMatchingRequestID)
+    data.initializeCustomerData([...customerItemsNotMatchingRequestID])
     res.json(data.customers)
 }
 

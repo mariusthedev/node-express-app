@@ -61,12 +61,12 @@ const deleteCustomer = (req, res) => {
     // Find customer item
     const customerItem = data.customers.find(item => item.id === parseInt(req.body.id))
     if (customerItem === undefined) {
-        return res.status(400)-json({
+        return res.status(400).json({
             "message": `Could not delete customer, item with ID ${req.body.id} not found!`
         })
     }
     // Sort array of customer items and initialize stored data
-    const customerItemsNotMatchingRequestID = data.customers.filter(item => item !== parseInt(req.body.id))
+    const customerItemsNotMatchingRequestID = data.customers.filter(item => item.id !== parseInt(req.body.id))
     data.initializeCustomerData([...customerItemsNotMatchingRequestID])
     res.json(data.customers)
 }

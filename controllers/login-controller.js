@@ -35,12 +35,12 @@ const loginUser = async (req, res) => {
             const accessToken = jwt.sign({
                 "username": foundUser.username
             }, process.env.ACCESS_SECRET, {
-                expiresIn: '10s' // TODO: set to 15 minutes
+                expiresIn: '30s'
             })
             const refreshToken = jwt.sign({
                 "username": foundUser.username
             }, process.env.REFRESH_SECRET, {
-                expiresIn: '30s' // TODO: set to one day
+                expiresIn: '60s'
             })
             // Write updates to simulated DB (JSON file)
             const otherUsers = usersDatabase.users.filter(item => item.username !== foundUser.username)
@@ -54,7 +54,7 @@ const loginUser = async (req, res) => {
                 'jwt',
                 refreshToken, 
                 {
-                    httpOnly: true, // Disables JavaScript modification access
+                    httpOnly: true, // Disable JavaScript modification access
                     maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
                 }
             )

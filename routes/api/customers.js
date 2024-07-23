@@ -1,16 +1,16 @@
 const express = require('express')
 const router = express.Router()
-const customerController = require('../../controllers/customer-controller')
+const controller = require('../../controllers/customer-controller')
 
 router
     .route('/')
-    .get(customerController.getCustomers)
-    .post(customerController.createCustomer)
-    .put(customerController.updateCustomer)
-    .delete(customerController.deleteCustomer)
+    .get(controller.getCustomers)
+    .post(controller.createCustomer)
+    .put(controller.updateCustomer)
+    .delete(controller.deleteCustomer)
 
 router
     .route('/:id')
-    .get(customerController.getCustomerById)
+    .get(controller.getCustomerById)
 
 module.exports = router

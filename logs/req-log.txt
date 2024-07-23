@@ -246,3 +246,15 @@
 [2024-07-23]	10:53:39	1459bbab-dd0f-45c0-a681-45972d58df15	POST	undefined	/login	
 [2024-07-23]	10:53:43	8c2351de-9c61-4fd7-9058-059c0b14006c	POST	undefined	/login	
 [2024-07-23]	10:53:55	7b1dfe91-441a-4e77-ad63-044760ba19bf	POST	undefined	/login	
+[2024-07-23]	10:58:52	bab85b08-a5ab-44b6-9bcb-7e83f1220665	POST	undefined	/login	
+[2024-07-23]	10:58:58	088bd8bf-a47f-4be8-8556-ba4d0752d3ae	POST	undefined	/login	
+[2024-07-23]	10:59:01	800a853b-4df9-43a8-9a2d-83ab4044d5a8	POST	undefined	/login	
+[2024-07-23]	11:02:11	ad3f0dac-65cd-4dc6-a2ea-a5a9648025c3	POST	undefined	/register	
+[2024-07-23]	12:07:14	f835bb02-fcab-4eca-8c1d-f4168ad630c2	POST	undefined	/login	
+[2024-07-23]	13:04:16	adf9d19f-4907-4d13-ae6e-37a4f53f019a	POST	undefined	/login	
+[2024-07-23]	13:04:41	ddfbdee5-0679-4177-bea1-4739ca1db39c	GET	undefined	/customers	
+[2024-07-23]	13:04:57	455e782b-5aa8-4f0d-9159-4208a4d42101	GET	undefined	/customers	
+[2024-07-23]	13:08:05	ffedb956-91af-443c-adcc-2215cc603510	POST	undefined	/login	
+[2024-07-23]	13:08:13	daa7961e-eb7c-41d2-8ba1-1fe5c540672e	GET	undefined	/customers	
+[2024-07-23]	13:08:21	b98b5de4-cf38-494b-8e2e-bb419c55178b	GET	undefined	/customers/1	
+[2024-07-23]	13:08:35	b0e73779-0b89-4308-a4a9-79acdaa53b17	DELETE	undefined	/customers	

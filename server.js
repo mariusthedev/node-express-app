@@ -3,6 +3,7 @@ const corsOptions = require('./config/cors-options')
 const path = require('path')
 const express = require('express')
 const errorHandler = require('./middleware/error-handler')
+const verifyToken = require('./middleware/verify-jwt')
 const { logger } = require('./middleware/log-events')
 
 const PORT_NUMBER = process.env.PORT || 8080
@@ -28,10 +29,11 @@ server.use(express.json())
 // Express middleware to serve static files from custom folders
 server.use('/', express.static(PATH_PUBLIC))
 
-// Custom routing from separate JS files
+// Custom "waterfall" routing & middleware injection
 server.use('/', require('./routes/home'))
 server.use('/register', require('./routes/register'))
 server.use('/login', require('./routes/login'))
+server.use(verifyToken) // Only customers API route will be protected by JWT
 server.use('/customers', require('./routes/api/customers'))
 
 // Wildcard routing (all methods)

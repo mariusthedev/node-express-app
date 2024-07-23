@@ -24,7 +24,7 @@ const loginUser = async (req, res) => {
     // Evaluate password
     const matchedPassword = await bcrypt.compare(password, foundUser.password)
     if (matchedPassword) {
-        // Create JWTs for login and refresh
+        // Create JWTs for access and refresh
         return res.json({
             "message": `User ${username} logged in!`
         })

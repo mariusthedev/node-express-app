@@ -30,6 +30,7 @@ server.use('/', express.static(PATH_PUBLIC))
 
 // Custom routing from separate JS files
 server.use('/', require('./routes/home'))
+server.use('/register', require('./routes/register'))
 server.use('/customers', require('./routes/api/customers'))
 
 // Wildcard routing (all methods)

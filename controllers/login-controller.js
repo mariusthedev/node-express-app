@@ -50,16 +50,24 @@ const loginUser = async (req, res) => {
                 USERS_FILEPATH, 
                 JSON.stringify(usersDatabase.users))
             // Return to caller
-            return res.json({
-                "message": `User ${username} logged in!`
+            res.cookie(
+                'jwt',
+                refreshToken, 
+                {
+                    httpOnly: true, // Disables JavaScript modification access
+                    maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
+                }
+            )
+            res.json({
+                accessToken // Never store this (only in-memory)
             })
         } catch (error) {
-            return res.status(500).json({
+            res.status(500).json({
                 "message": error.message
             })
         }
     } else {
-        return res.sendStatus(401)
+        res.sendStatus(401)
     }
 }
 

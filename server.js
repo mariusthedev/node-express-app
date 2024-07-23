@@ -1,4 +1,5 @@
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 const corsOptions = require('./config/cors-options')
 const path = require('path')
 const express = require('express')
@@ -25,6 +26,9 @@ server.use(express.urlencoded({
 
 // Express middleware to handle JSON data
 server.use(express.json())
+
+// Middleware for parsing cookies (duh)
+server.use(cookieParser())
 
 // Express middleware to serve static files from custom folders
 server.use('/', express.static(PATH_PUBLIC))

@@ -1,2 +1,6 @@
+.env
 node_modules
-logs/*.txt
+package.json
+package-lock.json
+logs/req-log.txt
+logs/err-log.txt

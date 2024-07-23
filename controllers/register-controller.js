@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 
 const USERS_FILEPATH = path.join(__dirname, '..', 'models', 'users.json')
 
-const userDatabase = {
+const usersDatabase = {
     users: require('../models/users.json'),
     initializeUserData: function (data) {
         this.users = data
@@ -22,7 +22,7 @@ const registerUser = async (req, res) => {
         })
     }
     // Check for duplicate usernames
-    const duplicate = userDatabase.users.find(item => item.username === username)
+    const duplicate = usersDatabase.users.find(item => item.username === username)
     if (duplicate) {
         return res.sendStatus(409) // Conflict
     }
@@ -33,10 +33,10 @@ const registerUser = async (req, res) => {
             "username": username,
             "password": hashedPassword
         }
-        // Store the user in simulated DB (write to JSON file)
-        userDatabase.initializeUserData([...userDatabase.users, newUser])
-        await fsPromises.writeFile(USERS_FILEPATH, JSON.stringify(userDatabase.users))
-        console.log(userDatabase.users)
+        // Write updates to simulated DB (JSON file)
+        usersDatabase.initializeUserData([...usersDatabase.users, newUser])
+        await fsPromises.writeFile(USERS_FILEPATH, JSON.stringify(usersDatabase.users))
+        console.log(usersDatabase.users)
         return res.status(201).json({
             "message": `New user ${username} was created!`
         })

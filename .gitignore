@@ -1,3 +1,2 @@
 node_modules
-logs/err-log.txt
-logs/req-log.txt
+logs/*.txt

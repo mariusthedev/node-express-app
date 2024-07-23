@@ -12,40 +12,43 @@ const usersDatabase = {
 }
 
 const registerUser = async (req, res) => {
-    const {
-        username, 
-        password 
-    } = req.body
+    
+    const { username, password } = req.body;
     if (!username || !password) {
         return res.status(400).json({
             "message": "Username and/or password was not provided!"
-        })
+        });
     }
-    // Check for duplicate usernames
-    const duplicate = usersDatabase.users.find(item => item.username === username)
-    if (duplicate) {
-        return res.sendStatus(409) // Conflict
+
+    const duplicateUsername = usersDatabase.users.find(item => item.username === username);
+    if (duplicateUsername) {
+        return res.sendStatus(409); // Conflict
     }
+    
     try {
+        
         // Encrypt the password
-        const hashedPassword = await bcrypt.hash(password, 10)
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = {
             "username": username,
             "password": hashedPassword
         }
+        
         // Write updates to simulated DB (JSON file)
-        usersDatabase.initializeUserData([...usersDatabase.users, newUser])
+        usersDatabase.initializeUserData([...usersDatabase.users, newUser]);
         await fsPromises.writeFile(
             USERS_FILEPATH, 
-            JSON.stringify(usersDatabase.users))
+            JSON.stringify(usersDatabase.users));
+        
         // Return to caller
         res.status(201).json({
             "message": `New user ${username} was created!`
-        })
+        });
+
     } catch (error) {
         res.status(500).json({
             "message": error.message
-        })
+        });
     }
 }
 

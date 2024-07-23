@@ -30,26 +30,34 @@ const loginUser = async (req, res) => {
     // Evaluate password
     const matchedPassword = await bcrypt.compare(password, foundUser.password)
     if (matchedPassword) {
-        // Create JWTs
-        const accessToken = jwt.sign({
-            "username": foundUser.username
-        }, process.env.ACCESS_SECRET, {
-            expiresIn: '10s' // TODO: set to 15 minutes
-        })
-        const refreshToken = jwt.sign({
-            "username": foundUser.username
-        }, process.env.REFRESH_SECRET, {
-            expiresIn: '30s' // TODO: set to one day
-        })
-        // Write updates to simulated DB (JSON file)
-        const otherUsers = usersDatabase.users.filter(item => item.username !== foundUser.username)
-        const currentUserWithRefreshToken = { ...foundUser, refreshToken }
-        usersDatabase.initializeUserData([...otherUsers, currentUserWithRefreshToken])
-        await fsPromises.writeFile(USERS_FILEPATH, JSON.stringify(usersDatabase.users))
-        // Return to caller
-        return res.json({
-            "message": `User ${username} logged in!`
-        })
+        try {
+            // Create JWTs
+            const accessToken = jwt.sign({
+                "username": foundUser.username
+            }, process.env.ACCESS_SECRET, {
+                expiresIn: '10s' // TODO: set to 15 minutes
+            })
+            const refreshToken = jwt.sign({
+                "username": foundUser.username
+            }, process.env.REFRESH_SECRET, {
+                expiresIn: '30s' // TODO: set to one day
+            })
+            // Write updates to simulated DB (JSON file)
+            const otherUsers = usersDatabase.users.filter(item => item.username !== foundUser.username)
+            const currentUserWithRefreshToken = { ...foundUser, refreshToken }
+            usersDatabase.initializeUserData([...otherUsers, currentUserWithRefreshToken])
+            await fsPromises.writeFile(
+                USERS_FILEPATH, 
+                JSON.stringify(usersDatabase.users))
+            // Return to caller
+            return res.json({
+                "message": `User ${username} logged in!`
+            })
+        } catch (error) {
+            return res.status(500).json({
+                "message": error.message
+            })
+        }
     } else {
         return res.sendStatus(401)
     }

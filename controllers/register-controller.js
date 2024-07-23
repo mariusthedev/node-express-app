@@ -35,8 +35,10 @@ const registerUser = async (req, res) => {
         }
         // Write updates to simulated DB (JSON file)
         usersDatabase.initializeUserData([...usersDatabase.users, newUser])
-        await fsPromises.writeFile(USERS_FILEPATH, JSON.stringify(usersDatabase.users))
-        console.log(usersDatabase.users)
+        await fsPromises.writeFile(
+            USERS_FILEPATH, 
+            JSON.stringify(usersDatabase.users))
+        // Return to caller
         return res.status(201).json({
             "message": `New user ${username} was created!`
         })

@@ -39,11 +39,11 @@ const registerUser = async (req, res) => {
             USERS_FILEPATH, 
             JSON.stringify(usersDatabase.users))
         // Return to caller
-        return res.status(201).json({
+        res.status(201).json({
             "message": `New user ${username} was created!`
         })
     } catch (error) {
-        return res.status(500).json({
+        res.status(500).json({
             "message": error.message
         })
     }

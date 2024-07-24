@@ -32,16 +32,23 @@ const loginUser = async (req, res) => {
     if (matchedPassword) {
         try {
 
+            const existingUserRoles = Object.values(existingUser.roles);
+
             // Create JWTs
             const accessToken = jwt.sign(
-                { "username": existingUser.username }, 
+                {
+                    "claims": {
+                        "username": existingUser.username,
+                        "roles": existingUserRoles
+                    }
+                },
                 process.env.ACCESS_SECRET, 
-                { expiresIn: '30s' }
+                { expiresIn: '60s' }
             );
             const refreshToken = jwt.sign(
                 { "username": existingUser.username }, 
                 process.env.REFRESH_SECRET, 
-                { expiresIn: '60s' }
+                { expiresIn: '600s' }
             );
 
             // Write updates to simulated DB (JSON file)
@@ -58,7 +65,7 @@ const loginUser = async (req, res) => {
                 'jwt',
                 refreshToken, {
                     httpOnly: true, // Disable JavaScript modification access
-                    secure: true,
+                    secure: true, // When testing with ThunderClient, remove this for refreshToken functionality
                     sameSite: 'None',
                     maxAge: 24 * 60 * 60 * 1000
                 }

@@ -24,8 +24,10 @@ const logoutUser = async (req, res) => { // Frontend should delete the JWT
     
     if (!existingUser) {
         res.clearCookie('jwt', { 
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000
+            httpOnly: true, // Disable JavaScript modification access
+            secure: true,
+            sameSite: 'None'
+            // No need to set maxAge when deleting cookies
         });
         return res.sendStatus(204); // Successful (no content)
     }
@@ -39,9 +41,11 @@ const logoutUser = async (req, res) => { // Frontend should delete the JWT
     usersDatabase.initializeUserData([...otherUsers, currentUserClearedToken]);
     await fsPromises.writeFile(USERS_FILEPATH, JSON.stringify(usersDatabase.users));
     res.clearCookie('jwt', { 
-        httpOnly: true ,
-        maxAge: 24 * 60 * 60 * 1000
-    }); // Add 'secure: true' in prod env (serves https only)
+        httpOnly: true, // Disable JavaScript modification access
+        secure: true,
+        sameSite: 'None'
+        // No need to set maxAge when deleting cookies
+    });
     
     res.sendStatus(204);
 }

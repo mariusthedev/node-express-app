@@ -26,17 +26,15 @@ const refreshToken = (req, res) => {
         refreshToken,
         process.env.REFRESH_SECRET,
         (error, decodedJwt) => {
-            
             if (error || existingUser.username !== decodedJwt.username) {
                 return res.sendStatus(403);
             }
-
             const accessToken = jwt.sign(
                 { "username": decodedJwt.username }, 
                 process.env.ACCESS_SECRET, 
                 { expiresIn: '60s' }
             );
-                
+            
             res.json({ accessToken });
         }
     );

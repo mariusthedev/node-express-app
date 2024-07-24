@@ -38,6 +38,7 @@ server.use('/', require('./routes/home'));
 server.use('/register', require('./routes/register'));
 server.use('/login', require('./routes/login'));
 server.use('/refresh', require('./routes/refresh'));
+server.use('/logout', require('./routes/logout'));
 
 server.use(verifyToken); // Routes after this statement requires signed JWT
 server.use('/customers', require('./routes/api/customers'));

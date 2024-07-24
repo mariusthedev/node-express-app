@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const usersDatabase = {
     users: require('../models/users.json'),
-    initializeUserData: function (data) { 
+    initializeUserData: function(data) { 
         this.users = data;
     }
 }
@@ -16,8 +16,8 @@ const refreshToken = (req, res) => {
     }
     
     const refreshToken = requestCookies.jwt;
-    const foundUser = usersDatabase.users.find(item => item.refreshToken === refreshToken);
-    if (!foundUser) {
+    const existingUser = usersDatabase.users.find(item => item.refreshToken === refreshToken);
+    if (!existingUser) {
         return res.sendStatus(403); // Forbidden
     }
     
@@ -27,14 +27,15 @@ const refreshToken = (req, res) => {
         process.env.REFRESH_SECRET,
         (error, decodedJwt) => {
             
-            if (error || foundUser.username !== decodedJwt.username) {
+            if (error || existingUser.username !== decodedJwt.username) {
                 return res.sendStatus(403);
             }
 
             const accessToken = jwt.sign(
                 { "username": decodedJwt.username }, 
                 process.env.ACCESS_SECRET, 
-                { expiresIn: '60s' });
+                { expiresIn: '60s' }
+            );
                 
             res.json({ accessToken });
         }

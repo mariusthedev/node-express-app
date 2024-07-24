@@ -22,32 +22,32 @@ const loginUser = async (req, res) => {
         });
     }
 
-    const foundUser = usersDatabase.users.find(item => item.username === username);
-    if (!foundUser) {
+    const existingUser = usersDatabase.users.find(item => item.username === username);
+    if (!existingUser) {
         return res.sendStatus(401); // Unauthorized
     }
 
     // Evaluate password
-    const matchedPassword = await bcrypt.compare(password, foundUser.password)
+    const matchedPassword = await bcrypt.compare(password, existingUser.password)
     if (matchedPassword) {
         try {
 
             // Create JWTs
             const accessToken = jwt.sign(
-                { "username": foundUser.username }, 
+                { "username": existingUser.username }, 
                 process.env.ACCESS_SECRET, 
                 { expiresIn: '30s' }
             );
             const refreshToken = jwt.sign(
-                { "username": foundUser.username }, 
+                { "username": existingUser.username }, 
                 process.env.REFRESH_SECRET, 
                 { expiresIn: '60s' }
             );
 
             // Write updates to simulated DB (JSON file)
-            const otherUsers = usersDatabase.users.filter(item => item.username !== foundUser.username);
+            const otherUsers = usersDatabase.users.filter(item => item.username !== existingUser.username);
             const currentUserWithRefreshToken = { 
-                ...foundUser, 
+                ...existingUser, 
                 refreshToken 
             }
             usersDatabase.initializeUserData([...otherUsers, currentUserWithRefreshToken]);
@@ -61,7 +61,9 @@ const loginUser = async (req, res) => {
                     maxAge: 24 * 60 * 60 * 1000 // 1 day in milliseconds
                 }
             );
+            
             res.json({ accessToken });
+
         } catch (error) {
             res.status(500).json({ 
                 "message": error.message 

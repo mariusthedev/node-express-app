@@ -1,10 +1,11 @@
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const corsOptions = require('./config/cors-options');
 const path = require('path');
 const express = require('express');
+const corsOptions = require('./config/cors-options');
 const errorHandler = require('./middleware/error-handler');
 const verifyToken = require('./middleware/verify-jwt');
+const allowCredentials = require('./middleware/allow-credentials');
 const { logger } = require('./middleware/log-events');
 
 const PORT_NUMBER = process.env.PORT || 8080;
@@ -14,6 +15,9 @@ const server = express();
 
 // Custom middleware logging
 server.use(logger);
+
+// Handle options credentials check (before CORS), get cookies credentials requirement
+server.use(allowCredentials);
 
 // CORS middleware (Cross Origin Resource Sharing)
 server.use(cors(corsOptions));

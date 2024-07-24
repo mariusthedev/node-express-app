@@ -1,10 +1,11 @@
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const corsOptions = require('./config/cors-options');
 const path = require('path');
 const express = require('express');
+const corsOptions = require('./config/cors-options');
 const errorHandler = require('./middleware/error-handler');
 const verifyToken = require('./middleware/verify-jwt');
+const allowCredentials = require('./middleware/allow-credentials');
 const { logger } = require('./middleware/log-events');
 
 const PORT_NUMBER = process.env.PORT || 8080;
@@ -14,6 +15,9 @@ const server = express();
 
 // Custom middleware logging
 server.use(logger);
+
+// Handle options credentials check (before CORS), get cookies credentials requirement
+server.use(allowCredentials);
 
 // CORS middleware (Cross Origin Resource Sharing)
 server.use(cors(corsOptions));
@@ -37,7 +41,10 @@ server.use('/', express.static(PATH_PUBLIC));
 server.use('/', require('./routes/home'));
 server.use('/register', require('./routes/register'));
 server.use('/login', require('./routes/login'));
-server.use(verifyToken); // Only customers API route will be protected by JWT
+server.use('/refresh', require('./routes/refresh'));
+server.use('/logout', require('./routes/logout'));
+
+server.use(verifyToken); // Routes after this statement requires signed JWT
 server.use('/customers', require('./routes/api/customers'));
 
 // Wildcard routing (all methods)

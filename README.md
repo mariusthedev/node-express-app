@@ -1,1 +1,1 @@
-A simple CRUD-application I'm currently learning how to build, written in JavaScript on Node.JS and Express (with JWT auth + MongoDB storage) - following Dave Grey's excellent introductory tutorial course on Node.JS.
+A simple CRUD-application I'm currently learning how to build, written in JavaScript on Node.JS and Express (with JWT auth + MongoDB storage) - following Dave Grey's excellent introductory tutorial course on Node.JS at https://www.youtube.com/watch?v=f2EqECiTBL8

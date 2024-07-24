@@ -37,7 +37,9 @@ server.use('/', express.static(PATH_PUBLIC));
 server.use('/', require('./routes/home'));
 server.use('/register', require('./routes/register'));
 server.use('/login', require('./routes/login'));
-server.use(verifyToken); // Only customers API route will be protected by JWT
+server.use('/refresh', require('./routes/refresh'));
+
+server.use(verifyToken); // Routes after this statement requires signed JWT
 server.use('/customers', require('./routes/api/customers'));
 
 // Wildcard routing (all methods)

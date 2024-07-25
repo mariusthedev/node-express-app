@@ -1,4 +1,3 @@
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const path = require('path');
@@ -43,12 +42,12 @@ const loginUser = async (req, res) => {
                     }
                 },
                 process.env.ACCESS_SECRET, 
-                { expiresIn: '60s' }
+                { expiresIn: '15m' }
             );
             const refreshToken = jwt.sign(
                 { "username": existingUser.username }, 
                 process.env.REFRESH_SECRET, 
-                { expiresIn: '600s' }
+                { expiresIn: '1d' }
             );
 
             // Write updates to simulated DB (JSON file)
@@ -65,7 +64,7 @@ const loginUser = async (req, res) => {
                 'jwt',
                 refreshToken, {
                     httpOnly: true, // Disable JavaScript modification access
-                    secure: true, // When testing with ThunderClient, remove this for refreshToken functionality
+                    //secure: true, // When testing with ThunderClient, remove this for refreshToken functionality
                     sameSite: 'None',
                     maxAge: 24 * 60 * 60 * 1000
                 }

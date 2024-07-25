@@ -1,4 +1,3 @@
-require('dotenv').config();
 const jwt = require('jsonwebtoken');
 
 const usersDatabase = {
@@ -38,7 +37,7 @@ const refreshToken = (req, res) => {
                     }
                 }, 
                 process.env.ACCESS_SECRET, 
-                { expiresIn: '60s' }
+                { expiresIn: '1d' }
             );
             
             res.json({ accessToken });

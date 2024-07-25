@@ -1,7 +1,9 @@
+require('dotenv').config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const express = require('express');
+
 const corsOptions = require('./config/cors-options');
 const errorHandler = require('./middleware/error-handler');
 const verifyToken = require('./middleware/verify-jwt');

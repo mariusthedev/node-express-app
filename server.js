@@ -56,7 +56,7 @@ server.use('/customers', require('./routes/api/customers'));
 
 // Wildcard routing (all methods)
 server.all('*', (req, res) => {
-    console.log('Wildcard route return and serve 404');
+    console.log('[CONSOLE_LOG] Wildcard route return and serve 404');
     res.status(404);
 
     if (req.accepts('html')) {
@@ -75,8 +75,8 @@ server.use(errorHandler);
 
 
 mongoose.connection.once('open', () => {
-    console.log('Database connection open');
+    console.log('[CONSOLE_LOG] Database connection open');
     server.listen(PORT_NUMBER, () => {
-        console.log(`Server listening on port ${PORT_NUMBER}`);
+        console.log(`[CONSOLE_LOG] Server listening on port ${PORT_NUMBER}`);
     });
 });

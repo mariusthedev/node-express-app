@@ -13,7 +13,7 @@ const getCustomerById = (req, res) => {
     const customerItem = data.customers.find(item => item.id === parseInt(req.params.id));
     if (customerItem === undefined) {
         return res.status(400).json({
-            "message": `Could not retrieve customer, item with ID ${req.body.id} not found!`
+            "message": `Customer with ID ${req.body.id} not found`
         });
     }
 
@@ -30,7 +30,7 @@ const createCustomer = (req, res) => {
 
     if (!newCustomer.email || !newCustomer.name) { 
         return res.status(400).json({
-            "message": 'Email and/or name was not provided!'
+            "message": 'Email and/or name not provided'
         });
     }
 
@@ -43,7 +43,7 @@ const updateCustomer = (req, res) => {
     const customerItem = data.customers.find(item => item.id === parseInt(req.body.id));
     if (customerItem === undefined) {
         return res.status(400).json({
-            "message": `Could not update customer, item with ID ${req.body.id} not found!`
+            "message": `Customer with ID ${req.body.id} not found`
         });
     }
     if (req.body.email) {
@@ -66,7 +66,7 @@ const deleteCustomer = (req, res) => {
     const customerItem = data.customers.find(item => item.id === parseInt(req.body.id));
     if (customerItem === undefined) {
         return res.status(400).json({
-            "message": `Could not delete customer, item with ID ${req.body.id} not found!`
+            "message": `Customer with ID ${req.body.id} not found`
         });
     }
 

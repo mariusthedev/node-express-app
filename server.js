@@ -1,9 +1,11 @@
 require('dotenv').config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 const path = require('path');
 const express = require('express');
 
+const dbConnect = require('./config/db-connect');
 const corsOptions = require('./config/cors-options');
 const errorHandler = require('./middleware/error-handler');
 const verifyToken = require('./middleware/verify-jwt');
@@ -14,6 +16,9 @@ const PORT_NUMBER = process.env.PORT || 8080;
 const PATH_PUBLIC = path.join(__dirname, '/public');
 const PATH_404 = path.join(__dirname, 'views', '404.html');
 const server = express();
+
+// Attempt connecting to database
+dbConnect();
 
 // Custom middleware logging
 server.use(logger);
@@ -51,7 +56,7 @@ server.use('/customers', require('./routes/api/customers'));
 
 // Wildcard routing (all methods)
 server.all('*', (req, res) => {
-    console.log('called wildcard, returning and serving 404');
+    console.log('Wildcard route return and serve 404');
     res.status(404);
 
     if (req.accepts('html')) {
@@ -68,6 +73,10 @@ server.all('*', (req, res) => {
 // Express error handling
 server.use(errorHandler);
 
-server.listen(PORT_NUMBER, () => {
-    console.log(`server listening ${PORT_NUMBER}`);
+
+mongoose.connection.once('open', () => {
+    console.log('Database connection open');
+    server.listen(PORT_NUMBER, () => {
+        console.log(`Server listening on port ${PORT_NUMBER}`);
+    });
 });

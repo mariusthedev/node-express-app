@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
         return res.status(400).json({
-            "message": "Username and/or password was not provided!"
+            "message": "Username and/or password not provided"
         });
     }
 
@@ -45,7 +45,7 @@ const registerUser = async (req, res) => {
         
         // Return to caller
         res.status(201).json({
-            "message": `New user ${username} was created!`
+            "message": `New user ${username} created`
         });
 
     } catch (error) {

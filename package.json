@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "mariusthedev",
   "license": "ISC",
-  "description": "A simple web-server built with Node and Express",
+  "description": "A backend application with CRUD capabilities, connecting to MongoDB. It has JWT authorization and user roles, and is built on Node.js and Express.",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",

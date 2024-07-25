@@ -1,15 +1,5 @@
-const fsPromises = require('fs').promises
-const path = require('path')
-const bcrypt = require('bcrypt')
-
-const USERS_FILEPATH = path.join(__dirname, '..', 'models', 'users.json')
-
-const usersDatabase = {
-    users: require('../models/users.json'),
-    initializeUserData: function (data) {
-        this.users = data
-    }
-}
+const bcrypt = require('bcrypt');
+const userModel = require('../models/user');
 
 const registerUser = async (req, res) => {
     
@@ -20,38 +10,23 @@ const registerUser = async (req, res) => {
         });
     }
 
-    const duplicateUsername = usersDatabase.users.find(item => item.username === username);
+    const duplicateUsername = await userModel.findOne({ username: username }).exec();
     if (duplicateUsername) {
         return res.sendStatus(409); // Conflict
     }
     
     try {
-        
-        // Encrypt the password
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = {
+        const createUserResult = await userModel.create({
             "username": username,
-            "roles": {
-                "user": 300
-            },
             "password": hashedPassword
-        }
-        
-        // Write updates to simulated DB (JSON file)
-        usersDatabase.initializeUserData([...usersDatabase.users, newUser]);
-        await fsPromises.writeFile(
-            USERS_FILEPATH, 
-            JSON.stringify(usersDatabase.users));
-        
-        // Return to caller
-        res.status(201).json({
-            "message": `New user ${username} created`
         });
 
+        console.log(`[CONSOLE_LOG] ${createUserResult}`);
+        res.status(201).json({ "message": `New user ${username} created` });
+
     } catch (error) {
-        res.status(500).json({
-            "message": error.message
-        });
+        res.status(500).json({ "message": error.message });
     }
 }
 

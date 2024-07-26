@@ -1,55 +1,68 @@
 const customerModel = require('../models/customer');
 
 const getCustomers = async (req, res) => {
-    const customersInDatabase = await customerModel.find();
-    if (!customersInDatabase) {
+    const customerDatabaseItems = await customerModel.find();
+    if (!customerDatabaseItems) {
         return res.status(204).json({"message": "No items found in database"});
     }
-    res.json(customersInDatabase);
+    res.json(customerDatabaseItems);
 }
 
 const getCustomerById = async (req, res) => {
-    const customerItem = await customerModel.findById(req.body.id).exec();
-    if (!customerItem) {
-        return res.status(400).json({"message": `Customer with ID ${req.body.id} not found`});
+    if (!req?.params?.id) {
+        return res.status(400).json({"message": "ID not provided"})
     }
-    res.json(customerItem);
+    try {
+        const foundItem = await customerModel.findById(req.params.id); //.findOne({_id: req.params.id}).exec();
+        if (!foundItem) {
+            return res.status(400).json({"message": "Item not found"});
+        }
+        res.json(foundItem);
+    } catch (error) {
+        console.error(`[ERROR] ${error}`);
+    }
 }
 
 const createCustomer = async (req, res) => {
     if (!req?.body?.email || !req?.body?.name) {
         return res.status(400).json({"message": "Email and/or name not provided"})
     }
-    
-}
-
-const updateCustomer = (req, res) => {
-    const customerItem = data.customers.find(item => item.id === parseInt(req.body.id));
-    if (customerItem === undefined) {
-        return res.status(400).json({
-            "message": `Customer with ID ${req.body.id} not found`
+    try {
+        const createResult = await customerModel.create({
+            email: req.body.email,
+            name: req.body.name
         });
+        res.status(201).json(createResult);
+    } catch (error) {
+        console.error(`[ERROR] ${error}`);
     }
-    if (req.body.email) {
-        customerItem.email = req.body.email;
-    }
-    if (req.body.name) {
-        customerItem.name = req.body.name;
-    }
-    const customerItemsNotMatchingRequestID = data.customers.filter(item => item.id !== parseInt(req.body.id));
-    const allCustomerItems = [...customerItemsNotMatchingRequestID, customerItem];
-    data.initializeCustomerData(allCustomerItems.sort((a, b) => a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
-    res.json(data.customers);
 }
 
-const deleteCustomer = (req, res) => {
-    const customerItem = data.customers.find(item => item.id === parseInt(req.body.id));
-    if (customerItem === undefined) {
-        return res.status(400).json({"message": `Customer with ID ${req.body.id} not found`});
+const updateCustomer = async (req, res) => {
+    if (!req?.body?.id) {
+        return res.status(400).json({"message": "ID not provided"})
     }
-    const customerItemsNotMatchingRequestID = data.customers.filter(item => item.id !== parseInt(req.body.id));
-    data.initializeCustomerData([...customerItemsNotMatchingRequestID]);
-    res.json(data.customers);
+    const itemToUpdate = await customerModel.findById(req.body.id);
+    if (!itemToUpdate) {
+        return res.status(204).json({"message": "Item not found"});
+    }
+    if (req.body?.email) {
+        itemToUpdate.email = req.body.email;
+    }
+    if (req.body?.name) {
+        itemToUpdate.name = req.body.name;
+    }
+    const updateResult = await itemToUpdate.save();
+    res.json(updateResult);
+}
+
+const deleteCustomer = async (req, res) => {
+    if (!req?.body?.id) {
+        return res.status(400).json({"message": "ID not provided"})
+    }
+    const deleteResult = await customerModel.findByIdAndDelete(req.body.id);
+    //const deleteResult = await itemToDelete.deleteOne(req.params.id);
+    res.json(deleteResult);
 }
 
 module.exports = {

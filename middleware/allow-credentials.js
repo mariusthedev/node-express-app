@@ -5,7 +5,6 @@ const credentials = (req, res, next) => {
     if (allowedOrigins.includes(requestOrigin)) {
         res.header('Access-Control-Allow-Credentials', true);
     }
-
     next();
 }
 

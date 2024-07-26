@@ -1,39 +1,22 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const path = require('path');
-const fsPromises = require('fs').promises;
-
-const USERS_FILEPATH = path.join(__dirname, '..', 'models', 'users.json');
-
-const usersDatabase = {
-    users: require('../models/users.json'),
-    initializeUserData: function (data) {
-        this.users = data;
-    }
-}
+const userModel = require('../models/user');
 
 const loginUser = async (req, res) => {
-
     const { username, password } = req.body;
     if (!username || !password) {
         return res.status(400).json({ 
             "message": "Username and/or password not provided" 
         });
     }
-
-    const existingUser = usersDatabase.users.find(item => item.username === username);
+    const existingUser = await userModel.findOne({ username: username }).exec();
     if (!existingUser) {
         return res.sendStatus(401); // Unauthorized
     }
-
-    // Evaluate password
     const matchedPassword = await bcrypt.compare(password, existingUser.password)
     if (matchedPassword) {
         try {
-
             const existingUserRoles = Object.values(existingUser.roles);
-
-            // Create JWTs
             const accessToken = jwt.sign(
                 {
                     "claims": {
@@ -49,17 +32,9 @@ const loginUser = async (req, res) => {
                 process.env.REFRESH_SECRET, 
                 { expiresIn: '1d' }
             );
-
-            // Write updates to simulated DB (JSON file)
-            const otherUsers = usersDatabase.users.filter(item => item.username !== existingUser.username);
-            const currentUserWithRefreshToken = { 
-                ...existingUser, 
-                refreshToken 
-            }
-            usersDatabase.initializeUserData([...otherUsers, currentUserWithRefreshToken]);
-            await fsPromises.writeFile(USERS_FILEPATH, JSON.stringify(usersDatabase.users));
-            
-            // Return to caller
+            existingUser.refreshToken = refreshToken;
+            const result = await existingUser.save(); // Save changes to MongoDB document
+            console.log(`[CONSOLE_LOG] ${result}`);
             res.cookie(
                 'jwt',
                 refreshToken, {
@@ -69,9 +44,7 @@ const loginUser = async (req, res) => {
                     maxAge: 24 * 60 * 60 * 1000
                 }
             );
-            
             res.json({ accessToken });
-
         } catch (error) {
             res.status(500).json({ 
                 "message": error.message 

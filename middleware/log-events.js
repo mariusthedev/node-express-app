@@ -8,10 +8,8 @@ const PATH_FOLDERNAME = '../logs';
 const PATH_LOGFOLDER = path.join(__dirname, PATH_FOLDERNAME);
 
 const logEvents = async (msg, filename) => {
-
     let dateTimeFormatted = `${format(new Date(), '[yyyy-MM-dd]\tHH:mm:ss')}`;
     let logMessage = `${dateTimeFormatted}\t${uuid()}\t${msg}\n`;
-
     try {
         if (!fs.existsSync(PATH_LOGFOLDER)) {
             await fsPromises.mkdir(PATH_LOGFOLDER);

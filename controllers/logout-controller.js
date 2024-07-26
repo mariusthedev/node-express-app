@@ -1,26 +1,12 @@
-const jwt = require('jsonwebtoken');
-const path = require('path');
-const fsPromises = require('fs').promises;
+const userModel = require('../models/user');
 
-const USERS_FILEPATH = path.join(__dirname, '..', 'models', 'users.json');
-
-const usersDatabase = {
-    users: require('../models/users.json'),
-    initializeUserData: function(data) { 
-        this.users = data;
-    }
-}
-
-const logoutUser = async (req, res) => { // Frontend should delete the JWT
-
+const logoutUser = async (req, res) => { // Frontend should delete the token
     const requestCookies = req.cookies;
     if (!requestCookies?.jwt) {
         return res.sendStatus(204); // No content
     }
-    
-    const refreshToken = requestCookies.jwt;
-    const existingUser = usersDatabase.users.find(item => item.refreshToken === refreshToken);
-    
+    const cookieToken = requestCookies.jwt;
+    const existingUser = await userModel.findOne({ refreshToken: cookieToken }).exec();
     if (!existingUser) {
         res.clearCookie('jwt', { 
             httpOnly: true, // Disable JavaScript modification access
@@ -30,22 +16,15 @@ const logoutUser = async (req, res) => { // Frontend should delete the JWT
         });
         return res.sendStatus(204); // Successful (no content)
     }
-    
-    // Delete refresh token from storage
-    const otherUsers = usersDatabase.users.filter(item => item.username !== existingUser.username);
-    const currentUserClearedToken = { 
-        ...existingUser, 
-        refreshToken: ''
-    }
-    usersDatabase.initializeUserData([...otherUsers, currentUserClearedToken]);
-    await fsPromises.writeFile(USERS_FILEPATH, JSON.stringify(usersDatabase.users));
+    existingUser.refreshToken = '';
+    const result = await existingUser.save(); // Save changes to MongoDB document
+    console.log(`[CONSOLE_LOG] ${result}`);
     res.clearCookie('jwt', { 
         httpOnly: true, // Disable JavaScript modification access
         secure: true,
         sameSite: 'None'
-        // No need to set maxAge when deleting cookies
-    });
-    
+        // No need to set 'maxAge' when deleting cookies
+    });  
     res.sendStatus(204);
 }
 

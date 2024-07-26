@@ -5,11 +5,9 @@ const userModel = require('../models/user');
 const loginUser = async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
-        return res.status(400).json({ 
-            "message": "Username and/or password not provided" 
-        });
+        return res.status(400).json({"message": "Username and/or password not provided"});
     }
-    const existingUser = await userModel.findOne({ username: username }).exec();
+    const existingUser = await userModel.findOne({username: username}).exec();
     if (!existingUser) {
         return res.sendStatus(401); // Unauthorized
     }
@@ -25,12 +23,12 @@ const loginUser = async (req, res) => {
                     }
                 },
                 process.env.ACCESS_SECRET, 
-                { expiresIn: '15m' }
+                {expiresIn: '15m'}
             );
             const refreshToken = jwt.sign(
-                { "username": existingUser.username }, 
+                {"username": existingUser.username}, 
                 process.env.REFRESH_SECRET, 
-                { expiresIn: '1d' }
+                {expiresIn: '1d'}
             );
             existingUser.refreshToken = refreshToken;
             const result = await existingUser.save(); // Save changes to MongoDB document
@@ -43,11 +41,9 @@ const loginUser = async (req, res) => {
                     maxAge: 24 * 60 * 60 * 1000
                 }
             );
-            res.json({ accessToken });
+            res.json({accessToken});
         } catch (error) {
-            res.status(500).json({ 
-                "message": error.message 
-            });
+            res.status(500).json({"message": error.message});
         }
     } else {
         res.sendStatus(401);

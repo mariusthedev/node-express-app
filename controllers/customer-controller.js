@@ -1,37 +1,26 @@
-const data = {
-    customers: require('../models/customers.json'),
-    initializeCustomerData: function(data) {
-        this.customers = data;
+const customerModel = require('../models/customer');
+
+const getCustomers = async (req, res) => {
+    const customersInDatabase = await customerModel.find();
+    if (!customersInDatabase) {
+        return res.status(204).json({"message": "No items found in database"});
     }
+    res.json(customersInDatabase);
 }
 
-const getCustomers = (req, res) => {
-    res.json(data.customers);
-}
-
-const getCustomerById = (req, res) => {
-    const customerItem = data.customers.find(item => item.id === parseInt(req.params.id));
-    if (customerItem === undefined) {
-        return res.status(400).json({
-            "message": `Customer with ID ${req.body.id} not found`
-        });
+const getCustomerById = async (req, res) => {
+    const customerItem = await customerModel.findById(req.body.id).exec();
+    if (!customerItem) {
+        return res.status(400).json({"message": `Customer with ID ${req.body.id} not found`});
     }
     res.json(customerItem);
 }
 
-const createCustomer = (req, res) => {
-    const newCustomer = {
-        id: data.customers?.length ? data.customers.at(-1).id + 1 : 1,
-        email: req.body.email,
-        name: req.body.name
+const createCustomer = async (req, res) => {
+    if (!req?.body?.email || !req?.body?.name) {
+        return res.status(400).json({"message": "Email and/or name not provided"})
     }
-    if (!newCustomer.email || !newCustomer.name) { 
-        return res.status(400).json({
-            "message": 'Email and/or name not provided'
-        });
-    }
-    data.initializeCustomerData([...data.customers, newCustomer]);
-    res.status(201).json(data.customers);
+    
 }
 
 const updateCustomer = (req, res) => {
@@ -56,9 +45,7 @@ const updateCustomer = (req, res) => {
 const deleteCustomer = (req, res) => {
     const customerItem = data.customers.find(item => item.id === parseInt(req.body.id));
     if (customerItem === undefined) {
-        return res.status(400).json({
-            "message": `Customer with ID ${req.body.id} not found`
-        });
+        return res.status(400).json({"message": `Customer with ID ${req.body.id} not found`});
     }
     const customerItemsNotMatchingRequestID = data.customers.filter(item => item.id !== parseInt(req.body.id));
     data.initializeCustomerData([...customerItemsNotMatchingRequestID]);

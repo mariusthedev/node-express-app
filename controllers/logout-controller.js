@@ -6,7 +6,7 @@ const logoutUser = async (req, res) => { // Frontend should delete the token
         return res.sendStatus(204); // No content
     }
     const cookieToken = requestCookies.jwt;
-    const existingUser = await userModel.findOne({ refreshToken: cookieToken }).exec();
+    const existingUser = await userModel.findOne({refreshToken: cookieToken}).exec();
     if (!existingUser) {
         res.clearCookie('jwt', { 
             httpOnly: true, // Disable JavaScript modification access

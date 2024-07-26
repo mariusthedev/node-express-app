@@ -10,7 +10,7 @@ const corsOptions = require('./config/cors-options');
 const errorHandler = require('./middleware/error-handler');
 const verifyToken = require('./middleware/verify-jwt');
 const allowCredentials = require('./middleware/allow-credentials');
-const { logger } = require('./middleware/log-events');
+const {logger} = require('./middleware/log-events');
 
 const PORT_NUMBER = process.env.PORT || 8080;
 const PATH_PUBLIC = path.join(__dirname, '/public');
@@ -55,15 +55,11 @@ server.use('/customers', require('./routes/api/customers'));
 
 // Wildcard routing (all methods)
 server.all('*', (req, res) => {
-    console.log('[LOG] Wildcard route return and serve 404');
     res.status(404);
-
     if (req.accepts('html')) {
         res.sendFile(PATH_404);
     } else if (req.accepts('json')) {
-        res.json({
-            error: "404 not found"
-        });
+        res.json({error: "404 not found"});
     } else {
         res.type('txt').send('404 not found');
     }

@@ -9,7 +9,7 @@ const refreshToken = async (req, res) => {
     }
     
     const cookieJwt = requestCookies.jwt;
-    const existingUser = await userModel.findOne({ refreshToken: cookieJwt }).exec();
+    const existingUser = await userModel.findOne({refreshToken: cookieJwt}).exec();
     
     if (!existingUser) {
         return res.sendStatus(403); // Forbidden
@@ -31,12 +31,12 @@ const refreshToken = async (req, res) => {
                     }
                 }, 
                 process.env.ACCESS_SECRET, 
-                { expiresIn: '1d' }
+                {expiresIn: '1d'}
             );
             
-            res.json({ accessToken });
+            res.json({accessToken});
         }
     );
 }
 
-module.exports = { refreshToken }
+module.exports = {refreshToken}

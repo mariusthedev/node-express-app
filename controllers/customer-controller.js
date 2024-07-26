@@ -13,7 +13,7 @@ const getCustomerById = async (req, res) => {
         return res.status(400).json({"message": "ID not provided"})
     }
     try {
-        const foundItem = await customerModel.findById(req.params.id); //.findOne({_id: req.params.id}).exec();
+        const foundItem = await customerModel.findById(req.params.id);
         if (!foundItem) {
             return res.status(400).json({"message": "Item not found"});
         }

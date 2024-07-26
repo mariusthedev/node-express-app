@@ -61,7 +61,6 @@ const deleteCustomer = async (req, res) => {
         return res.status(400).json({"message": "ID not provided"})
     }
     const deleteResult = await customerModel.findByIdAndDelete(req.body.id);
-    //const deleteResult = await itemToDelete.deleteOne(req.params.id);
     res.json(deleteResult);
 }
 

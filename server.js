@@ -10,7 +10,7 @@ const corsOptions = require('./config/cors-options');
 const errorHandler = require('./middleware/error-handler');
 const verifyToken = require('./middleware/verify-jwt');
 const allowCredentials = require('./middleware/allow-credentials');
-const { logger } = require('./middleware/log-events');
+const {logger} = require('./middleware/log-events');
 
 const PORT_NUMBER = process.env.PORT || 8080;
 const PATH_PUBLIC = path.join(__dirname, '/public');
@@ -50,21 +50,16 @@ server.use('/register', require('./routes/register'));
 server.use('/login', require('./routes/login'));
 server.use('/refresh', require('./routes/refresh'));
 server.use('/logout', require('./routes/logout'));
-
 server.use(verifyToken); // Routes after this statement requires signed JWT
 server.use('/customers', require('./routes/api/customers'));
 
 // Wildcard routing (all methods)
 server.all('*', (req, res) => {
-    console.log('[CONSOLE_LOG] Wildcard route return and serve 404');
     res.status(404);
-
     if (req.accepts('html')) {
         res.sendFile(PATH_404);
     } else if (req.accepts('json')) {
-        res.json({
-            error: "404 not found"
-        });
+        res.json({error: "404 not found"});
     } else {
         res.type('txt').send('404 not found');
     }
@@ -73,10 +68,9 @@ server.all('*', (req, res) => {
 // Express error handling
 server.use(errorHandler);
 
-
 mongoose.connection.once('open', () => {
-    console.log('[CONSOLE_LOG] Database connection open');
+    console.log('[LOG] Database connection open');
     server.listen(PORT_NUMBER, () => {
-        console.log(`[CONSOLE_LOG] Server listening on port ${PORT_NUMBER}`);
+        console.log(`[LOG] Server listening on port ${PORT_NUMBER}`);
     });
 });

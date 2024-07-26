@@ -16,7 +16,7 @@ const logEvents = async (msg, filename) => {
         }
         const logfilePath = path.join(__dirname, PATH_FOLDERNAME, filename);
         await fsPromises.appendFile(logfilePath, logMessage);
-        console.log(`[CONSOLE_LOG] ${logMessage}`);
+        console.log(`[LOG] ${logMessage}`);
     } catch (err) {
         console.error(err.message);
     }
@@ -24,7 +24,6 @@ const logEvents = async (msg, filename) => {
 
 const logger = (req, res, next) => {
     logEvents(`${req.method}\t${req.headers.origin}\t${req.url}\t`, 'req-log.txt');
-    console.log(`[CONSOLE_LOG] ${req.method} ${req.path}`);
     next();
 }
 

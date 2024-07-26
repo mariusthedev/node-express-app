@@ -18,12 +18,11 @@ const logoutUser = async (req, res) => { // Frontend should delete the token
     }
     existingUser.refreshToken = '';
     const result = await existingUser.save(); // Save changes to MongoDB document
-    console.log(`[CONSOLE_LOG] ${result}`);
     res.clearCookie('jwt', { 
         httpOnly: true, // Disable JavaScript modification access
-        secure: true,
+        //secure: true, // Testing locally, remove this for 'refreshToken' functionality
         sameSite: 'None'
-        // No need to set 'maxAge' when deleting cookies
+        // No need for 'maxAge' when clearing cookie
     });  
     res.sendStatus(204);
 }

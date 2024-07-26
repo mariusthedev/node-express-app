@@ -34,12 +34,11 @@ const loginUser = async (req, res) => {
             );
             existingUser.refreshToken = refreshToken;
             const result = await existingUser.save(); // Save changes to MongoDB document
-            console.log(`[CONSOLE_LOG] ${result}`);
             res.cookie(
                 'jwt',
                 refreshToken, {
                     httpOnly: true, // Disable JavaScript modification access
-                    //secure: true, // When testing with ThunderClient, remove this for refreshToken functionality
+                    //secure: true, // Testing locally, remove this for 'refreshToken' functionality
                     sameSite: 'None',
                     maxAge: 24 * 60 * 60 * 1000
                 }
